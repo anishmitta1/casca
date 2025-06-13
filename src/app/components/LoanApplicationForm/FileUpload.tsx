@@ -1,5 +1,9 @@
 import { Text, XStack, YStack } from '@/uikit'
-import { useDropzone } from 'react-dropzone'
+import {
+  DropzoneInputProps,
+  DropzoneRootProps,
+  useDropzone,
+} from 'react-dropzone'
 
 interface FileUploadProps {
   files: File[]
@@ -7,8 +11,8 @@ interface FileUploadProps {
 }
 
 interface FileUploadButtonProps {
-  getRootProps: () => any
-  getInputProps: () => any
+  getRootProps: () => DropzoneRootProps
+  getInputProps: () => DropzoneInputProps
   label: string
 }
 
