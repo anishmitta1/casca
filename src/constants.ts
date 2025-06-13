@@ -3,6 +3,8 @@ enum LoanApplicationStep {
   KYC = 'kyc',
   PREVIEW = 'preview',
   SUBMITTED = 'submitted',
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
 }
 
 export { LoanApplicationStep }

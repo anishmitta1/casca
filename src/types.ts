@@ -31,8 +31,6 @@ type LoanApplication = {
   createdAt: string
   updatedAt: string
   kycForm: KYCForm
-  // An approved application
-  approved: boolean
 }
 
 export type { KYCForm, LoanApplication }
