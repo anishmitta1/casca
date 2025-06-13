@@ -2,6 +2,7 @@
 import { Text, YStack } from '@/uikit'
 import FileUpload from './FileUpload'
 import { useState } from 'react'
+import { LoanApplicationStep } from '@/constants'
 
 const dedupByKey = (arr: any[], key: string) => {
   return arr.filter(
@@ -9,13 +10,51 @@ const dedupByKey = (arr: any[], key: string) => {
   )
 }
 
+interface NextStepProps {
+  onClick: () => void
+  disabled: boolean
+}
+
+const NextStep = ({ onClick, disabled }: NextStepProps) => {
+  return (
+    <div
+      className="bg-black py-[8px] px-[16px] rounded-lg hover:cursor-pointer"
+      onClick={!disabled ? onClick : undefined}
+    >
+      <Text size={16} color="#fff">
+        Next Step
+      </Text>
+    </div>
+  )
+}
+
 const LoanApplicationForm = () => {
+  const formSuccess = true
+  const [step, setStep] = useState<LoanApplicationStep>(
+    LoanApplicationStep.DOCUMENTS
+  )
   const [files, setFiles] = useState<File[]>([])
 
   const onUploadFiles = (uploadedFiles: File[]) => {
     setFiles((files) => dedupByKey([...files, ...uploadedFiles], 'name'))
     console.log(files)
     // Do something with the files later
+  }
+
+  const onNextStep = () => {
+    if (step === LoanApplicationStep.DOCUMENTS && files.length > 0) {
+      setStep(LoanApplicationStep.KYC)
+    } else if (step === LoanApplicationStep.KYC && formSuccess) {
+      setStep(LoanApplicationStep.PREVIEW)
+    }
+  }
+
+  const isNextStepDisabled = () => {
+    if (step === LoanApplicationStep.DOCUMENTS) {
+      return files.length === 0
+    }
+
+    return false
   }
 
   return (
@@ -28,7 +67,12 @@ const LoanApplicationForm = () => {
           Upload your business bank statements to get started.
         </Text>
       </YStack>
-      <FileUpload files={files} onUploadFiles={onUploadFiles} />
+      {step === LoanApplicationStep.DOCUMENTS && (
+        <FileUpload files={files} onUploadFiles={onUploadFiles} />
+      )}
+      <YStack className="pt-[8px] items-start pl-[16px]">
+        <NextStep onClick={onNextStep} disabled={isNextStepDisabled()} />
+      </YStack>
     </YStack>
   )
 }
