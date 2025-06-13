@@ -4,9 +4,9 @@ import FileUpload from './FileUpload'
 import { useState } from 'react'
 import { LoanApplicationStep } from '@/constants'
 
-const dedupByKey = (arr: any[], key: string) => {
-  return arr.filter(
-    (item, index, self) => index === self.findIndex((t) => t[key] === item[key])
+const dedupFileByName = (files: File[]) => {
+  return files.filter(
+    (file, index, self) => index === self.findIndex((t) => t.name === file.name)
   )
 }
 
@@ -36,7 +36,7 @@ const LoanApplicationForm = () => {
   const [files, setFiles] = useState<File[]>([])
 
   const onUploadFiles = (uploadedFiles: File[]) => {
-    setFiles((files) => dedupByKey([...files, ...uploadedFiles], 'name'))
+    setFiles((files) => dedupFileByName([...files, ...uploadedFiles]))
     console.log(files)
     // Do something with the files later
   }
