@@ -1,8 +1,9 @@
 'use client'
-import { Text, YStack } from '@/uikit'
+import { Button, Text, YStack } from '@/uikit'
 import FileUpload from './FileUpload'
 import { useState } from 'react'
 import { LoanApplicationStep } from '@/constants'
+import KYCForm from './Form'
 
 const dedupFileByName = (files: File[]) => {
   return files.filter(
@@ -16,16 +17,7 @@ interface NextStepProps {
 }
 
 const NextStep = ({ onClick, disabled }: NextStepProps) => {
-  return (
-    <div
-      className="bg-black py-[8px] px-[16px] rounded-lg hover:cursor-pointer"
-      onClick={!disabled ? onClick : undefined}
-    >
-      <Text size={16} color="#fff">
-        Next Step
-      </Text>
-    </div>
-  )
+  return <Button onClick={onClick} disabled={disabled} />
 }
 
 const LoanApplicationForm = () => {
@@ -63,13 +55,16 @@ const LoanApplicationForm = () => {
         <Text size={32} weight={700}>
           Business Loan Application
         </Text>
-        <Text size={14} weight={400} color="#5C738A">
-          Upload your business bank statements to get started.
-        </Text>
+        {step === LoanApplicationStep.DOCUMENTS && (
+          <Text size={14} weight={400} color="#5C738A">
+            Upload your business bank statements to get started.
+          </Text>
+        )}
       </YStack>
       {step === LoanApplicationStep.DOCUMENTS && (
         <FileUpload files={files} onUploadFiles={onUploadFiles} />
       )}
+      {step === LoanApplicationStep.KYC && <KYCForm />}
       <YStack className="pt-[8px] items-start pl-[16px]">
         <NextStep onClick={onNextStep} disabled={isNextStepDisabled()} />
       </YStack>

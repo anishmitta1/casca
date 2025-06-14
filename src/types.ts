@@ -1,16 +1,8 @@
 import { LoanApplicationStep } from '@/constants'
 
 // Everything is in USD
-type KYCIndividualForm = {
-  name: string
-  estimatedIncome: number
-  nationality: string
-  dateOfBirth: string
-  address: string
-  phone: string
-}
-
-type KYCCompanyForm = {
+type KYCForm = {
+  files: File[]
   name: string
   dba: string
   address: string
@@ -19,11 +11,6 @@ type KYCCompanyForm = {
   website: string
   estimatedArr: number
 }
-
-type KYCForm = {
-  type: 'individual' | 'company'
-  files: File[]
-} & (KYCIndividualForm | KYCCompanyForm)
 
 type LoanApplication = {
   id: string
