@@ -29,7 +29,6 @@ const LoanApplicationForm = () => {
 
   const onUploadFiles = (uploadedFiles: File[]) => {
     setFiles((files) => dedupFileByName([...files, ...uploadedFiles]))
-    console.log(files)
     // Do something with the files later
   }
 
@@ -64,7 +63,7 @@ const LoanApplicationForm = () => {
       {step === LoanApplicationStep.DOCUMENTS && (
         <FileUpload files={files} onUploadFiles={onUploadFiles} />
       )}
-      {step === LoanApplicationStep.KYC && <KYCForm />}
+      {step === LoanApplicationStep.KYC && <KYCForm onFinish={onNextStep} />}
       <YStack className="pt-[8px] items-start pl-[16px]">
         <NextStep onClick={onNextStep} disabled={isNextStepDisabled()} />
       </YStack>
