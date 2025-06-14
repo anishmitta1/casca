@@ -25,7 +25,7 @@ export default function Home() {
               </h2>
             </div>
             <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#3f7fbf] text-gray-50 text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em]">
-              <Link href="/app">
+              <Link href="/home">
                 <span className="truncate">Get Started</span>
               </Link>
             </button>
