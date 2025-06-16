@@ -6,12 +6,14 @@ import Form from "./form";
 import FileUpload from "./file-upload";
 
 interface ApplicationPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 const ApplicationPage = async ({ params }: ApplicationPageProps) => {
+  const { id } = await params;
+
   const supabase = await createClient();
 
   const { data, error } = await supabase.auth.getUser();
@@ -20,7 +22,7 @@ const ApplicationPage = async ({ params }: ApplicationPageProps) => {
     redirect("/auth/login");
   }
 
-  const application = await getApplication(params.id);
+  const application = await getApplication(id);
 
   return (
     <div>
