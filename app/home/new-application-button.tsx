@@ -1,6 +1,6 @@
 "use client";
 import { startNewApplication } from "@/lib/backend/loan-application";
-import { User } from "@supabase/supabase-js";
+import { User } from "@/types";
 import { useRouter } from "next/navigation";
 
 interface NewApplicationButtonProps {

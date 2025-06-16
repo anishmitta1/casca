@@ -20,6 +20,10 @@ interface ApplicationsTableProps {
 const ApplicationsTable = ({ applications }: ApplicationsTableProps) => {
   const router = useRouter();
 
+  if (applications.length === 0) {
+    return <div>No applications found</div>;
+  }
+
   return (
     <div className="border rounded-lg">
       <table className="flex-1">

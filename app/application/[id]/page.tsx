@@ -1,3 +1,6 @@
+import { Input } from "@/components/ui/input";
+import Form from "./form";
+
 interface ApplicationPageProps {
   params: {
     id: string;
@@ -7,7 +10,11 @@ interface ApplicationPageProps {
 const ApplicationPage = ({ params }: ApplicationPageProps) => {
   const { id } = params;
 
-  return <div>ApplicationPage {id}</div>;
+  return (
+    <div>
+      <Form />
+    </div>
+  );
 };
 
 export default ApplicationPage;
