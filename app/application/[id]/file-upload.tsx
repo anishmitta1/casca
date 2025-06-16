@@ -228,7 +228,7 @@ const FileUpload = ({ application }: FileUploadProps) => {
       <Button
         className="mt-8"
         onClick={onSubmitApplication}
-        disabled={!selectedLoanOption}
+        disabled={!selectedLoanOption || !loanAmount}
       >
         Submit Application
       </Button>
