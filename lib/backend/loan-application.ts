@@ -2,6 +2,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getRandomId } from "../utils";
 import { User } from "@supabase/supabase-js";
+import { Application } from "@/types";
 
 const loanApplicationClient = async () => {
   const supabase = await createClient();
@@ -20,4 +21,12 @@ const startNewApplication = async (user: User) => {
   });
 };
 
-export { startNewApplication };
+const getApplications = async (): Promise<Application[]> => {
+  const client = await loanApplicationClient();
+
+  const { data } = await client.select("*");
+
+  return data ?? [];
+};
+
+export { startNewApplication, getApplications };
