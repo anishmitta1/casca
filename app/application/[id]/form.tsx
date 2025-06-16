@@ -1,8 +1,10 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 
 const PLACEHOLDER_OPTIONS = [
   "To expand operations",
@@ -11,6 +13,7 @@ const PLACEHOLDER_OPTIONS = [
   "To hire new employees",
 ];
 
+// shoutout claude sonnet 4
 const useChangingPlaceholder = () => {
   const [currentText, setCurrentText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -50,17 +53,39 @@ const useChangingPlaceholder = () => {
     return () => clearTimeout(timeout);
   }, [currentText, currentIndex, isDeleting, index, PLACEHOLDER_OPTIONS]);
 
-  //   useEffect(() => {
-  //     if (index === PLACEHOLDER_OPTIONS.length - 1) {
-  //       clearInterval(interval.current!);
-  //     }
-  //   }, [index]);
-
   return currentText;
 };
 
+interface FormState {
+  businessName: string;
+  dba: string;
+  numberOfEmployees: number | null;
+  estimatedARR: number | null;
+  reasonForLoan: string;
+}
+
 const Form = () => {
   const placeholder = useChangingPlaceholder();
+
+  const {
+    handleSubmit,
+    register,
+    formState: { isValid },
+  } = useForm<FormState>({
+    defaultValues: {
+      businessName: "",
+      dba: "",
+      numberOfEmployees: null,
+      estimatedARR: null,
+      reasonForLoan: "",
+    },
+  });
+
+  const onSubmit = (data: FormState) => {
+    console.log(data);
+  };
+
+  console.log({ isValid });
 
   return (
     <div>
@@ -68,13 +93,27 @@ const Form = () => {
 
       <div className="mt-8 space-y-4">
         <div className="flex items-center gap-8">
-          <Input placeholder="Business Name" className="w-fit" />
-          <Input placeholder="DBA" className="w-fit" />
+          <Input
+            placeholder="Business Name*"
+            className="w-fit"
+            {...register("businessName", {
+              required: true,
+            })}
+          />
+          <Input placeholder="DBA" className="w-fit" {...register("dba")} />
         </div>
 
         <div className="flex items-center gap-8">
-          <Input placeholder="Number of Employees" className="w-fit" />
-          <Input placeholder="Estimated ARR" className="w-fit" />
+          <Input
+            placeholder="Number of Employees"
+            className="w-fit"
+            {...register("numberOfEmployees")}
+          />
+          <Input
+            placeholder="Estimated ARR*"
+            className="w-fit"
+            {...register("estimatedARR", { required: true })}
+          />
         </div>
 
         <div className="pt-8">
@@ -83,10 +122,22 @@ const Form = () => {
           </div>
 
           <div className="mt-4">
-            <Textarea placeholder={placeholder} className="w-1/2 h-24" />
+            <Textarea
+              placeholder={placeholder}
+              className="w-1/2 h-24"
+              {...register("reasonForLoan")}
+            />
           </div>
         </div>
       </div>
+
+      <Button
+        className="mt-8"
+        onClick={handleSubmit(onSubmit)}
+        disabled={!isValid}
+      >
+        Submit
+      </Button>
     </div>
   );
 };
