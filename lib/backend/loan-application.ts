@@ -9,14 +9,20 @@ const loanApplicationClient = async () => {
   return supabase.from("loan_applications");
 };
 
-const startNewApplication = async (user: User) => {
+const startNewApplication = async (user: User): Promise<Application> => {
   const client = await loanApplicationClient();
 
-  return client
+  const { data: application } = await client
     .insert({
       user_id: user.id,
     })
     .select();
+
+  if (!application) {
+    throw new Error("Failed to create new application");
+  }
+
+  return application[0];
 };
 
 const getApplications = async (): Promise<Application[]> => {

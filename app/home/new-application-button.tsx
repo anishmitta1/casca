@@ -11,14 +11,14 @@ const NewApplicationButton = ({ user }: NewApplicationButtonProps) => {
   const router = useRouter();
 
   const onNewApplicationClick = async () => {
-    const { data } = await startNewApplication(user);
+    try {
+      const { id } = await startNewApplication(user);
 
-    if (!data) {
+      router.push(`/application/${id}`);
+    } catch (error) {
       // couldnt create new application toast
-      return;
+      console.error(error);
     }
-
-    router.push(`/application/${data[0].id}`);
   };
 
   return (
