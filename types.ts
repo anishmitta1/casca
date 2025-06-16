@@ -13,6 +13,25 @@ type Application = {
   step: string;
   description: string;
   state: ApplicationState;
+  configuration: LoanOptionSelection;
 };
 
-export type { User, Application, ApplicationState };
+type LoanOption = {
+  termMonths: number;
+  interestRate: number;
+  maxLoanAmount: number;
+};
+
+type LoanOptionSelection = {
+  termMonths: number;
+  interestRate: number;
+  loanAmount: number;
+};
+
+export type {
+  User,
+  Application,
+  ApplicationState,
+  LoanOption,
+  LoanOptionSelection,
+};
