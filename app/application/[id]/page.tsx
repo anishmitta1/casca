@@ -1,15 +1,6 @@
-import { Input } from "@/components/ui/input";
 import Form from "./form";
 
-interface ApplicationPageProps {
-  params: {
-    id: string;
-  };
-}
-
-const ApplicationPage = ({ params }: ApplicationPageProps) => {
-  const { id } = params;
-
+const ApplicationPage = () => {
   return (
     <div>
       <Form />

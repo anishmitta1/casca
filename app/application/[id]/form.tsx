@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 const PLACEHOLDER_OPTIONS = [
   "To expand operations",
@@ -51,7 +51,7 @@ const useChangingPlaceholder = () => {
     }, 25);
 
     return () => clearTimeout(timeout);
-  }, [currentText, currentIndex, isDeleting, index, PLACEHOLDER_OPTIONS]);
+  }, [currentText, currentIndex, isDeleting, index]);
 
   return currentText;
 };
@@ -84,8 +84,6 @@ const Form = () => {
   const onSubmit = (data: FormState) => {
     console.log(data);
   };
-
-  console.log({ isValid });
 
   return (
     <div>
