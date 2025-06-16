@@ -3,6 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { updateApplicationKYB } from "@/lib/backend/loan-application";
+import { Application, ApplicationState, User } from "@/types";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -64,25 +67,39 @@ interface FormState {
   reasonForLoan: string;
 }
 
-const Form = () => {
-  const placeholder = useChangingPlaceholder();
+interface FormProps {
+  user: User;
+  application: Application;
+}
 
+const Form = ({ application }: FormProps) => {
+  const placeholder = useChangingPlaceholder();
+  const router = useRouter();
   const {
     handleSubmit,
     register,
     formState: { isValid },
   } = useForm<FormState>({
     defaultValues: {
-      businessName: "",
-      dba: "",
-      numberOfEmployees: null,
-      estimatedARR: null,
-      reasonForLoan: "",
+      businessName: application.state.name ?? "",
+      dba: application.state.dba ?? "",
+      numberOfEmployees: application.state.numberOfEmployees ?? null,
+      estimatedARR: application.state.estimatedARR ?? null,
+      reasonForLoan: application.description ?? "",
     },
   });
 
-  const onSubmit = (data: FormState) => {
-    console.log(data);
+  const onSubmit = async (data: FormState) => {
+    const state: ApplicationState = {
+      name: data.businessName,
+      dba: data.dba,
+      numberOfEmployees: data.numberOfEmployees ?? 0,
+      estimatedARR: data.estimatedARR ?? 0,
+    };
+
+    await updateApplicationKYB(application.id, state, data.reasonForLoan);
+
+    router.refresh();
   };
 
   return (
@@ -110,20 +127,29 @@ const Form = () => {
           <Input
             placeholder="Estimated ARR*"
             className="w-fit"
-            {...register("estimatedARR", { required: true })}
+            {...register("estimatedARR", {
+              required: true,
+              validate: (value) => {
+                if (isNaN(Number(value))) {
+                  return "Estimated ARR must be a number";
+                }
+
+                return true;
+              },
+            })}
           />
         </div>
 
         <div className="pt-8">
           <div className="text-sm text-muted-foreground">
-            Why are you applying for a loan?
+            Why are you applying for a loan?*
           </div>
 
           <div className="mt-4">
             <Textarea
               placeholder={placeholder}
               className="w-1/2 h-24"
-              {...register("reasonForLoan")}
+              {...register("reasonForLoan", { required: true })}
             />
           </div>
         </div>

@@ -1,7 +1,8 @@
 "use server";
 import { createClient } from "@/lib/supabase/server";
 import { User } from "@supabase/supabase-js";
-import { Application } from "@/types";
+import { Application, ApplicationState } from "@/types";
+import { ApplicationStep } from "@/constants";
 
 const loanApplicationClient = async () => {
   const supabase = await createClient();
@@ -25,6 +26,14 @@ const startNewApplication = async (user: User): Promise<Application> => {
   return application[0];
 };
 
+const getApplication = async (id: string): Promise<Application> => {
+  const client = await loanApplicationClient();
+
+  const { data } = await client.select("*").eq("id", id).single();
+
+  return data;
+};
+
 const getApplications = async (): Promise<Application[]> => {
   const client = await loanApplicationClient();
 
@@ -39,4 +48,26 @@ const discardApplication = async (id: string) => {
   return client.delete().eq("id", id);
 };
 
-export { startNewApplication, getApplications, discardApplication };
+const updateApplicationKYB = async (
+  id: string,
+  state: ApplicationState,
+  description: string
+) => {
+  const client = await loanApplicationClient();
+
+  return client
+    .update({
+      state,
+      description,
+      step: ApplicationStep.DOCUMENTS,
+    })
+    .eq("id", id);
+};
+
+export {
+  startNewApplication,
+  getApplication,
+  getApplications,
+  discardApplication,
+  updateApplicationKYB,
+};
