@@ -1,13 +1,25 @@
 "use client";
 import { startNewApplication } from "@/lib/backend/loan-application";
 import { User } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 
 interface NewApplicationButtonProps {
   user: User;
 }
 
 const NewApplicationButton = ({ user }: NewApplicationButtonProps) => {
-  const onNewApplicationClick = () => startNewApplication(user);
+  const router = useRouter();
+
+  const onNewApplicationClick = async () => {
+    const { data } = await startNewApplication(user);
+
+    if (!data) {
+      // couldnt create new application toast
+      return;
+    }
+
+    router.push(`/application/${data[0].id}`);
+  };
 
   return (
     <button

@@ -1,6 +1,5 @@
 "use server";
 import { createClient } from "@/lib/supabase/server";
-import { getRandomId } from "../utils";
 import { User } from "@supabase/supabase-js";
 import { Application } from "@/types";
 
@@ -13,9 +12,11 @@ const loanApplicationClient = async () => {
 const startNewApplication = async (user: User) => {
   const client = await loanApplicationClient();
 
-  return client.insert({
-    user_id: user.id,
-  });
+  return client
+    .insert({
+      user_id: user.id,
+    })
+    .select();
 };
 
 const getApplications = async (): Promise<Application[]> => {
@@ -26,4 +27,10 @@ const getApplications = async (): Promise<Application[]> => {
   return data ?? [];
 };
 
-export { startNewApplication, getApplications };
+const discardApplication = async (id: string) => {
+  const client = await loanApplicationClient();
+
+  return client.delete().eq("id", id);
+};
+
+export { startNewApplication, getApplications, discardApplication };
