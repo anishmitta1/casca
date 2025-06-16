@@ -1,7 +1,7 @@
 "use server";
 import { createClient } from "@/lib/supabase/server";
 import { User } from "@supabase/supabase-js";
-import { Application, ApplicationState } from "@/types";
+import { Application, ApplicationState, LoanOptionSelection } from "@/types";
 import { ApplicationStep } from "@/constants";
 
 const loanApplicationClient = async () => {
@@ -64,10 +64,25 @@ const updateApplicationKYB = async (
     .eq("id", id);
 };
 
+const updateApplicationOptions = async (
+  id: string,
+  selection: LoanOptionSelection
+) => {
+  const client = await loanApplicationClient();
+
+  return client
+    .update({
+      configuration: selection,
+      step: ApplicationStep.REVIEW,
+    })
+    .eq("id", id);
+};
+
 export {
   startNewApplication,
   getApplication,
   getApplications,
   discardApplication,
   updateApplicationKYB,
+  updateApplicationOptions,
 };

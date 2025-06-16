@@ -4,6 +4,7 @@ import { ApplicationStep } from "@/constants";
 import { getApplication } from "@/lib/backend/loan-application";
 import Form from "./form";
 import FileUpload from "./file-upload";
+import Review from "./review";
 
 interface ApplicationPageProps {
   params: Promise<{
@@ -30,7 +31,13 @@ const ApplicationPage = async ({ params }: ApplicationPageProps) => {
         <Form user={data.user} application={application} />
       )}
 
-      {application.step === ApplicationStep.DOCUMENTS && <FileUpload />}
+      {application.step === ApplicationStep.DOCUMENTS && (
+        <FileUpload application={application} />
+      )}
+
+      {application.step === ApplicationStep.REVIEW && (
+        <Review application={application} />
+      )}
     </div>
   );
 };

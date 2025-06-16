@@ -6,4 +6,6 @@ enum ApplicationStep {
   DISCARDED = "discarded",
 }
 
-export { ApplicationStep };
+const LOAN_GRADES = ["A", "B", "C", "D", "E", "F"];
+
+export { ApplicationStep, LOAN_GRADES };
