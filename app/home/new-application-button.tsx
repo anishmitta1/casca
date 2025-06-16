@@ -7,9 +7,7 @@ interface NewApplicationButtonProps {
 }
 
 const NewApplicationButton = ({ user }: NewApplicationButtonProps) => {
-  const onNewApplicationClick = async () => {
-    const response = await startNewApplication(user);
-  };
+  const onNewApplicationClick = () => startNewApplication(user);
 
   return (
     <button
