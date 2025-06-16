@@ -13,11 +13,8 @@ const loanApplicationClient = async () => {
 const startNewApplication = async (user: User) => {
   const client = await loanApplicationClient();
 
-  const id = getRandomId();
-
   return client.insert({
     user_id: user.id,
-    application_id: id,
   });
 };
 
