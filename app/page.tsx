@@ -7,7 +7,7 @@ export default function Home() {
     <main className="min-h-screen flex flex-col">
       <div className="flex-1 w-full flex flex-col items-center gap-20">
         <Header />
-        <div className="flex-1 flex flex-col w-full gap-20 max-w-5xl p-5 rounded-xl">
+        <div className="flex-1 flex flex-col w-full gap-20 p-5 rounded-xl">
           <div
             className="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-xl items-center justify-center p-4 rounded-xl"
             style={{
@@ -25,7 +25,7 @@ export default function Home() {
               </h2>
             </div>
             <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#3f7fbf] text-gray-50 text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em]">
-              <Link href="/app">
+              <Link href="/home">
                 <span className="truncate">Get Started</span>
               </Link>
             </button>
